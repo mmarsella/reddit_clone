@@ -86,6 +86,17 @@ app.put("/users/:id", function (req,res){
 
 //DESTROY
 app.delete("/users/:id", function (req,res){
+  db.User.findById(req.params.id,
+    function (err, user){
+      if(err){
+        console.log(err);
+        res.render("users/show");
+      }else{
+        user.remove();
+        res.redirect("/users");
+      }
+
+    });
 });
 
 //SHALLOW ROUTING:  omit re-used route roots.  Allowed to change edit, show, update and delete.

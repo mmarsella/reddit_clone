@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Post = require("./post");
+var Comment = require("./comment");
 var bcrypt = require("bcrypt");
 var SALT_WORK_FACTOR = 10;
 
@@ -34,6 +35,13 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('remove', function(next){
   // remove every post for this user
   Post.remove({user: this._id}).exec();
+  next(); // now remove the user!!!
+});
+
+// THIS WILL REMOVE ALL COMMENTS MADE BY THIS USER
+userSchema.pre('remove', function(next){
+  // remove every post for this user
+  Comment.remove({user: this._id}).exec();
   next(); // now remove the user!!!
 });
 
