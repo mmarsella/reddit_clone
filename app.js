@@ -30,17 +30,16 @@ Only the owner/creator of a comment can delete that comment
 
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
-  res.redirect("/users");
+  res.render("/posts/index"); // Showing the index page of ALL POSTS
 });
 
 /*****USERS****/
-
 //INDEX  --> List of USERS
 app.get("/users", function (req,res){
   db.User.find({}, function (err, users){
   res.render("users/index", {users:users});
   });
-});
+});   // DON'T NEED THIS!!! NO NEED TO SHOW LIST OF USERS!!!
 
 //NEW  --> FORM TO CREATE NEW USER
 app.get("/users/new", function (req,res){
@@ -49,10 +48,16 @@ app.get("/users/new", function (req,res){
 
 //SHOW
 app.get("/users/:id", function (req,res){
+  db.User.findById(req.params.id, function (err,user){
+    res.render("users/show", {user:user});
+  });
 });
 
 //EDIT
 app.get("/users/:id/edit", function (req,res){
+  db.User.findById(req.params.id, function (err, user){
+    res.render("users/edit", {user:user});
+  });
 });
 
 //CREATE
@@ -69,12 +74,14 @@ app.post("/users", function (req,res){
 
 //UPDATE
 app.put("/users/:id", function (req,res){
+  db.User.findByIdAndUpdate(req.params.id, req.body, function (err, user){
+
+  });
 });
 
 //DESTROY
 app.delete("/users/:id", function (req,res){
 });
-
 
 //SHALLOW ROUTING:  omit re-used route roots.  Allowed to change edit, show, update and delete.
 

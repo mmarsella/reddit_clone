@@ -1,7 +1,7 @@
 <% include ../partials/header %>
   <div class="col-xs-9 col-xs text-center">
     <table class="table table-condensed table-hover text-center" >
-    <h1>USER LIST</h1>  
+    <h1>WELCOME TO REDDIT_CLONE!</h1>  
       <thead>
         <th class="text-center">Name</th>
         <th class="text-center">EMAIL</th>
@@ -10,14 +10,15 @@
       <tbody>
       <% users.forEach(function(el){ %> 
           <tr>
-            <td><a href="/users/<%=el.id%>"><strong><%= el.name %></a></strong></td>   
+            <td><a href="/users/<%=el._id%>"><strong><%= el.name %></a></strong></td>   
             <td><%= el.email %></td>
             <td><%= el.posts.length %></td>
           </tr>
        <% }) %>
       </tbody>
     </table>  
-     <a href="/users/new" class="btn-lg btn-info text-center">ADD USER</a>
+     <a href="/users/new" class="btn-lg btn-info text-center">SIGN UP</a>
+     <a href="/users/new" class="btn-lg btn-info text-center">LOG IN</a>
   </div>
   <div class="col-xs-3"></div>
 <% include ../partials/footer %>
