@@ -30,7 +30,7 @@ Only the owner/creator of a comment can delete that comment
 
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
-  res.render("/posts/index"); // Showing the index page of ALL POSTS
+  res.redirect("/users"); // Showing the index page of ALL POSTS
 });
 
 /*****USERS****/
@@ -75,7 +75,12 @@ app.post("/users", function (req,res){
 //UPDATE
 app.put("/users/:id", function (req,res){
   db.User.findByIdAndUpdate(req.params.id, req.body, function (err, user){
-
+    if(err){
+      console.log(err);
+      res.render("./404");
+    }else{
+      res.redirect("/users");
+    }
   });
 });
 
