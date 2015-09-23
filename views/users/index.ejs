@@ -1,7 +1,23 @@
-<% include ./partials/header %>
-<h1>USERS INDEX PAGE</h1>
-
-
-
-
-<% include ./partials/footer %>
+<% include ../partials/header %>
+  <div class="col-xs-9 col-xs text-center">
+    <table class="table table-condensed table-hover text-center" >
+    <h1>USER LIST</h1>  
+      <thead>
+        <th class="text-center">Name</th>
+        <th class="text-center">EMAIL</th>
+        <th class="text-center"># POSTS</th>
+      </thead>
+      <tbody>
+      <% users.forEach(function(el){ %> 
+          <tr>
+            <td><a href="/users/<%=el.id%>"><strong><%= el.name %></a></strong></td>   
+            <td><%= el.email %></td>
+            <td><%= el.posts.length %></td>
+          </tr>
+       <% }) %>
+      </tbody>
+    </table>  
+     <a href="/users/new" class="btn-lg btn-info text-center">ADD USER</a>
+  </div>
+  <div class="col-xs-3"></div>
+<% include ../partials/footer %>

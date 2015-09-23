@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Comment = require("comment");
+var Comment = require("./comment");
 
 /*** POST SCHEMA **/
 var postSchema = new mongoose.Schema({

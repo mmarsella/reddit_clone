@@ -1,7 +1,27 @@
-<% include ./partials/header %>
-<h1>USERS NEW PAGE</h1>
+<% include ../partials/header %>
+<div class="row">
+    <div class="col-xs-3 filler"></div>
+    <div class="col-xs-6">
+      <form action="/users" class="text-center" method="POST">
+        <h1>NEW USER!</h1>
+          <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Name</span>
+          <input type="text" class="form-control" placeholder="Name.." aria-describedby="basic-addon1"name="name" id="name" required>
+        </div>
+          <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">EMAIL</span>
+          <input type="text" class="form-control" placeholder="Your email..." aria-describedby="basic-addon1"name="email" id="email" required>
+        </div>
+          <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Password</span>
+          <input type="text" class="form-control" placeholder="Password..." aria-describedby="basic-addon1"name="password" id="password" required>
+        </div>
+        <br>
+        <button class="btn-lg btn-success">SUBMIT</button>
+      </form>
+    </div>
+    <div class="col-xs-3 filler"></div>
 
 
 
-
-<% include ./partials/footer %>
+<% include ../partials/footer %>

@@ -6,7 +6,7 @@ Requirements
 
 Your site must have the following specs:
 
-Models - User, Post, and Comment
+Models - User, Post, and Comment  --> DONE!
 Anyone can visit the root page and see a list of all the posts
 Anyone can click on a post to view its comments
 Only a logged in user can submit a new post

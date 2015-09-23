@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Post = require("post");
+var Post = require("./post");
 var bcrypt = require("bcrypt");
 var SALT_WORK_FACTOR = 10;
 

@@ -15,7 +15,6 @@ app.use(morgan('tiny'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
 
-
 /*
 Models - User, Post, and Comment
 Anyone can visit the root page and see a list of all the posts
@@ -28,20 +27,24 @@ Only the owner/creator of a comment can edit that comment
 Only the owner/creator of a comment can delete that comment
 */
 
-//ROOT
+
+//ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
   res.redirect("/users");
 });
 
 /*****USERS****/
 
-//INDEX
+//INDEX  --> List of USERS
 app.get("/users", function (req,res){
-  res.render("index");
+  db.User.find({}, function (err, users){
+  res.render("users/index", {users:users});
+  });
 });
 
-//NEW
+//NEW  --> FORM TO CREATE NEW USER
 app.get("/users/new", function (req,res){
+  res.render("users/new");
 }); 
 
 //SHOW
@@ -54,6 +57,14 @@ app.get("/users/:id/edit", function (req,res){
 
 //CREATE
 app.post("/users", function (req,res){
+  db.User.create(req.body, function (err, user){
+    if(err){
+      console.log(err);
+      res.render("./404");
+    }else{
+      res.redirect("/users");
+    }
+  });
 });
 
 //UPDATE
