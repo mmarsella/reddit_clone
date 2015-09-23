@@ -15,6 +15,19 @@ app.use(morgan('tiny'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
 
+
+/*
+Models - User, Post, and Comment
+Anyone can visit the root page and see a list of all the posts
+Anyone can click on a post to view its comments
+Only a logged in user can submit a new post
+Only a logged in user can comment on a post
+Only the owner/creator of a post can edit that post
+Only the owner/creator of a post can delete that post
+Only the owner/creator of a comment can edit that comment
+Only the owner/creator of a comment can delete that comment
+*/
+
 //ROOT
 app.get("/", function (req,res){
   res.redirect("/users");
@@ -29,7 +42,7 @@ app.get("/users", function (req,res){
 
 //NEW
 app.get("/users/new", function (req,res){
-});
+}); 
 
 //SHOW
 app.get("/users/:id", function (req,res){
