@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var Post = require("post");
 var bcrypt = require("bcrypt");
 var SALT_WORK_FACTOR = 10;
 
@@ -16,7 +17,7 @@ var userSchema = new mongoose.Schema({
     required:true
   },
   email:String,
-  
+
   posts:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Post"
