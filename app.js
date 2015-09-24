@@ -1,3 +1,19 @@
+/*
+
+COOOKIES -- live in the browser
+  -- session writes info to the cookie!
+  -- whatever we write to the cookie is attached to req.session
+
+Sessions -- Live in the SERVER
+   -- Way of remembering info from page to page
+   -- stays on the server
+   -- sends info to browser as well
+
+   --creates the cookie with all of the necessary info
+
+*/
+
+
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -14,14 +30,16 @@ app.use(methodOverride('_method'));
 app.use(morgan('tiny'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(loginMiddleware);
 
+//ALWAYS create the session BEFORE trying to using ANY MIDDLEWARE that involves req.session
 app.use(session({
   maxAge: 3600000,   //milliseconds  (360 seconds/6min)
   secret: 'illnevertell',
   name: "chocolate chip"
 }));
 
+
+app.use(loginMiddleware);  // calling the loginhelper on EVERY REQUEST!
 /*
 Models - User, Post, and Comment
 Anyone can visit the root page and see a list of all the posts
@@ -37,10 +55,11 @@ Only the owner/creator of a comment can delete that comment
 
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
+
   db.Post.find({})
   .populate("user")
   .exec(function (err,posts){
-    res.render("posts/index",{posts:posts})
+    res.render("posts/index",{posts:posts});
   });
   
 });
@@ -90,13 +109,6 @@ app.get("/logout", function (req, res) {
 
 
 /*****USERS****/
-//INDEX  --> List of USERS
-app.get("/users", function (req,res){
-  db.User.find({}, function (err, users){
-  res.render("users/index", {users:users});
-  });
-});   // DON'T NEED THIS!!! NO NEED TO SHOW LIST OF USERS!!!
-
 
 //SHOW
 app.get("/users/:id", function (req,res){

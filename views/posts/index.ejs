@@ -2,32 +2,37 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">REDDIT</a>
+      <a class="navbar-brand" href="/">REDDIT_CLONE</a>
     </div>
     <div>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <% if(!currentUser) {%>
+        <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> 
+    <% } else { %>
+
+         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      <% } %>
       </ul>
     </div>
   </div>
 </nav>
 
 <a href="/posts/new" class="btn-lg btn-info text-center">CREATE POST</a>
+<% if(currentUser) {%>
+  <h1>Welcome Back <%= currentUser.name%></h1>
+<% }%>
 <br>
 <br>
     <% posts.forEach(function(post){ %> 
+    <img src="http://lorempixel.com/400/200/sports/" width="40px" height="40px">
     <a href="<%=post.url%>"><%=post.title%></a>
-    <p>comment | 
-    <%if(post.user){ %>
-    <%=post.user.name%> | 
+    <p> <%if(post.user){ %>
+    By: <%=post.user.name%> | 
     <%}%>
-    edit |
+    comment | 
     delete
     </p>
      </div> 
     <%})%>
-      
-
-
 <% include ../partials/footer %>
