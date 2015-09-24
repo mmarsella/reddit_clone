@@ -37,7 +37,12 @@ Only the owner/creator of a comment can delete that comment
 
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
-  res.render("posts/index"); // Showing the index page of ALL POSTS
+  db.Post.find({})
+  .populate("user")
+  .exec(function (err,posts){
+    res.render("posts/index",{posts:posts})
+  });
+  
 });
 
 /*** LOGIN AND SIGN UP ****/
@@ -166,6 +171,23 @@ app.get("/posts/:id/edit", function (req,res){
 
 //CREATE
 app.post("/posts", function (req,res){
+  db.Post.create(req.body.post, function (err, post){
+    console.log("THE POST: " + post);
+    if(err){
+      console.log(err);
+      res.render("404");
+    }else{
+      db.User.findById(req.session.id, function (err,user){
+        console.log("USER: " + user);
+        user.posts.push(post);
+        console.log("POSTS ARRAY: " + user.posts);
+        post.user = user._id;
+        post.save();
+        user.save();
+        res.redirect("/");
+      });
+    }
+  });
 });
 
 //UPDATE
