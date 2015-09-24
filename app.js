@@ -65,8 +65,10 @@ app.get("/login", routeMiddleware.preventLoginSignup, function (req,res){
 });
 
 app.post("/login", function (req,res){
+  console.log("LOGGIN IN??");
   db.User.authenticate(req.body.user,
     function (err,user){
+      console.log("THE USER: " + user);
       if(!err && user !== null){
         req.login(user);
         res.redirect("/");  //HOME

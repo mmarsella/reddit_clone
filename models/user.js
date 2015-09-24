@@ -14,7 +14,7 @@ var userSchema = new mongoose.Schema({
   },
   password:{
     type:String,
-    lowercase:true,
+    //NEVER LOWERCASE/UPPERCASE USER PASSWORD!!!!
     required:true
   },
   email:String,
