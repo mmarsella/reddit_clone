@@ -30,8 +30,9 @@
     <p> <%if(post.user){ %>
     By: <%=post.user.name%> | 
     <%}%>
-    comment | 
-    delete
+    comment |
+    <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm">
+    delete</button></form> 
     </p>
      </div> 
     <%})%>

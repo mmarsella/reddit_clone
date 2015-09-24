@@ -204,10 +204,20 @@ app.post("/posts", function (req,res){
 
 //UPDATE
 app.put("/posts/:id", function (req,res){
+  //DON'T NEED THIS.... but keeping it here to be RESTful!!
 });
 
 //DESTROY
-app.delete("/posts/:id", function (req,res){
+app.delete("/posts/:id", function (req,res){  // Nobody will see the id b/c its a delete route.
+  console.log("INSIDE DELETE");
+  db.Post.findByIdAndRemove(req.params.id, function (err, post){
+    console.log("DELETED:" + post);
+    if(err){
+      console.log(err);
+    }else{
+      res.redirect("/");
+    }
+  });
 });
 
 /** COMMENTS **/
