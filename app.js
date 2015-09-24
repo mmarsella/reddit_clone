@@ -37,7 +37,7 @@ Only the owner/creator of a comment can delete that comment
 
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
-  res.redirect("/users"); // Showing the index page of ALL POSTS
+  res.render("posts/index"); // Showing the index page of ALL POSTS
 });
 
 /*** LOGIN AND SIGN UP ****/
@@ -149,12 +149,11 @@ app.delete("/users/:id", function (req,res){
 
 /***** POSTS ***/
 
-//INDEX
-app.get("/users/:user_id/posts", function (req,res){
-});
+//DON't need any id's in route's bc they are stored in the session id!!
 
 //NEW
-app.get("/users/:user_id/posts/new", function (req,res){
+app.get("/posts/new", function (req,res){
+  res.render("posts/new");
 });
 
 //SHOW
@@ -166,7 +165,7 @@ app.get("/posts/:id/edit", function (req,res){
 });
 
 //CREATE
-app.post("/users/:user_id/posts", function (req,res){
+app.post("/posts", function (req,res){
 });
 
 //UPDATE
@@ -210,8 +209,7 @@ app.delete("/comments/:id", function (req,res){
 
 
 /*****  TO DO  *****
-1) loginHelper and routeHelper middleware
-2)  add login/sign in functionality
+
 3) POST CRUD
 */
 

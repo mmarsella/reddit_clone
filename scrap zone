@@ -1,0 +1,9 @@
+//NEW  --> FORM TO CREATE NEW USER
+app.get("/users/new", function (req,res){
+  res.render("users/signup");
+}); 
+
+
+//INDEX
+app.get("/users/:user_id/posts", function (req,res){
+});

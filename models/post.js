@@ -4,7 +4,6 @@ var Comment = require("./comment");
 /*** POST SCHEMA **/
 var postSchema = new mongoose.Schema({
   title:String,
-  body:String,
   url:String,
   user:{
     type:mongoose.Schema.Types.ObjectId,
