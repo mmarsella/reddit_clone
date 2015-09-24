@@ -16,6 +16,12 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(loginMiddleware);
 
+app.use(session({
+  maxAge: 3600000,   //milliseconds  (360 seconds/6min)
+  secret: 'illnevertell',
+  name: "chocolate chip"
+}));
+
 /*
 Models - User, Post, and Comment
 Anyone can visit the root page and see a list of all the posts
@@ -41,14 +47,15 @@ app.get("/signup", routeMiddleware.preventLoginSignup, function (req,res){
 });
 
 app.post("/signup", function (req,res){
-  var newuser = req.body.user;
+  var newUser = req.body.user;
   db.User.create(newUser, function (err,user){
+    console.log(user);
     if(user){
       req.login(user);
-      res.redirect("/");  // HOME WHERE ALL THE POSTS ARE
+      res.redirect("/signup");  // HOME WHERE ALL THE POSTS ARE
     }else{
       console.log(err);
-      res.render("users/signup");
+      res.redirect("/");
     }
   }); 
 });
@@ -69,16 +76,10 @@ app.post("/login", function (req,res){
     });
 });
 
-
-
-
-
-
 app.get("/logout", function (req, res) {
   req.logout();
   res.redirect("/");
 });
-
 
 
 /*****USERS****/
@@ -89,10 +90,6 @@ app.get("/users", function (req,res){
   });
 });   // DON'T NEED THIS!!! NO NEED TO SHOW LIST OF USERS!!!
 
-//NEW  --> FORM TO CREATE NEW USER
-app.get("/users/new", function (req,res){
-  res.render("users/new");
-}); 
 
 //SHOW
 app.get("/users/:id", function (req,res){
