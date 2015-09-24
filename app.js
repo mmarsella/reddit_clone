@@ -14,6 +14,7 @@ app.use(methodOverride('_method'));
 app.use(morgan('tiny'));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(loginMiddleware);
 
 /*
 Models - User, Post, and Comment
@@ -32,6 +33,53 @@ Only the owner/creator of a comment can delete that comment
 app.get("/", function (req,res){
   res.redirect("/users"); // Showing the index page of ALL POSTS
 });
+
+/*** LOGIN AND SIGN UP ****/
+
+app.get("/signup", routeMiddleware.preventLoginSignup, function (req,res){
+  res.render("users/signup");
+});
+
+app.post("/signup", function (req,res){
+  var newuser = req.body.user;
+  db.User.create(newUser, function (err,user){
+    if(user){
+      req.login(user);
+      res.redirect("/");  // HOME WHERE ALL THE POSTS ARE
+    }else{
+      console.log(err);
+      res.render("users/signup");
+    }
+  }); 
+});
+
+app.get("/login", routeMiddleware.preventLoginSignup, function (req,res){
+  res.render("users/login");
+});
+
+app.post("/login", function (req,res){
+  db.User.authenticate(req.body.user,
+    function (err,user){
+      if(!err && user !== null){
+        req.login(user);
+        res.redirect("/");  //HOME
+      }else{
+        res.render("users/login");
+      }
+    });
+});
+
+
+
+
+
+
+app.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
+
+
 
 /*****USERS****/
 //INDEX  --> List of USERS
@@ -95,7 +143,6 @@ app.delete("/users/:id", function (req,res){
         user.remove();
         res.redirect("/users");
       }
-
     });
 });
 
@@ -160,6 +207,15 @@ app.put("/comments/:id", function (req,res){
 //DESTROY
 app.delete("/comments/:id", function (req,res){
 });
+
+
+
+/*****  TO DO  *****
+1) loginHelper and routeHelper middleware
+2)  add login/sign in functionality
+3) POST CRUD
+*/
+
 
 
 app.get('*', function(req,res){
