@@ -71,7 +71,7 @@ app.post("/login", function (req,res){
         req.login(user);
         res.redirect("/");  //HOME
       }else{
-        res.render("users/login");
+        res.redirect("/users");
       }
     });
 });
