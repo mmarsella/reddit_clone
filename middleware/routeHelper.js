@@ -10,10 +10,12 @@ var routeHelpers = {
   },
 
   ensureCorrectUser: function(req, res, next) {
-    db.User.findById(req.params.id, function(err,user){
-      if (user.ownerId !== req.session.id) {
+    db.Post.findById(req.params.id, function(err,post){
+      //added toString() 
+      if (post.user.toString() !== req.session.id) {
         res.redirect('/');
       }else {
+        console.log("GOING TO NEXT");
        return next();
       }
     });

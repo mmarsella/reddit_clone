@@ -1,5 +1,4 @@
 /*
-
 COOOKIES -- live in the browser
   -- session writes info to the cookie!
   -- whatever we write to the cookie is attached to req.session
@@ -10,10 +9,7 @@ Sessions -- Live in the SERVER
    -- sends info to browser as well
 
    --creates the cookie with all of the necessary info
-
 */
-
-
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -209,12 +205,13 @@ app.put("/posts/:id", function (req,res){
 });
 
 //DESTROY
-app.delete("/posts/:id", function (req,res){  // Nobody will see the id b/c its a delete route.
+app.delete("/posts/:id", routeMiddleware.ensureCorrectUser, function (req,res){  // Nobody will see the id b/c its a delete route.
   console.log("INSIDE DELETE");
   db.Post.findByIdAndRemove(req.params.id, function (err, post){
     console.log("DELETED:" + post);
     if(err){
       console.log(err);
+      res.redirect("/");
     }else{
       res.redirect("/");
     }
@@ -227,14 +224,19 @@ app.delete("/posts/:id", function (req,res){  // Nobody will see the id b/c its 
 app.get("/posts/:post_id/comments", function (req,res){
   db.Post.findById(req.params.post_id).populate("comments").exec(
     function (err, post){
-    res.render("comments/index",{post:post});
+      db.Comment.find(req.params.post_id).populate("user").exec(
+        function (err, comment){
+        res.render("comments/index",{post:post, comment:comment});
+
+        });
     });
 });
 
 //NEW
 app.get("/posts/:post_id/comments/new", function (req,res){
-  res.render("comments/new");
-
+  db.Post.findById(req.params.post_id, function (err, post){
+    res.render("comments/new", {post:post});
+  });
 });
 
 //SHOW
@@ -248,6 +250,21 @@ app.get("/comments/:id/edit", function (req,res){
 
 //CREATE
 app.post("/posts/:post_id/comments", function (req,res){
+  db.Comment.create(req.body.comment, function (err, comment){
+    console.log("The comment: " + comment);
+    if(err){
+      console.log(err);
+      res.render("404");
+    }else{
+      db.Post.findById(req.params.post_id, function (err, post){
+        post.comments.push(comment);
+        comment.post = comment._id;
+        comment.save();
+        post.save();
+        res.redirect("/posts/:post_id/comments");
+      });
+    }
+  });
 
 });
 

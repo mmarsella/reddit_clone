@@ -2,11 +2,11 @@
 <div class="row">
     <div class="col-xs-3 filler"></div>
     <div class="col-xs-6">
-      <form action="/comments" class="text-center" method="POST">
+      <form action="/posts/<%=post._id%>/comments" class="text-center" method="POST">
         <h1>MAKE A COMMENT</h1>
             <div class="form-group">
               <label for="comment">Comment:</label>
-              <textarea class="form-control" rows="5" id="comment"></textarea>
+              <textarea class="form-control" rows="5" id="comment" name="comment[body]"></textarea>
             </div>
             <button class="btn-lg btn-success text-center">SUBMIT COMMENT</button>
         </form>

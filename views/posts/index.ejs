@@ -4,6 +4,13 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">REDDIT_CLONE</a>
     </div>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+      <% if(currentUser) {%>
+  Welcome, <%= currentUser.name%>
+<% }%></a>
+    </div>
+
     <div>
       <ul class="nav navbar-nav navbar-right">
     <% if(!currentUser) {%>
@@ -19,9 +26,8 @@
 </nav>
 
 <a href="/posts/new" class="btn-lg btn-info text-center">CREATE POST</a>
-<% if(currentUser) {%>
-  <h1>Welcome Back: <%= currentUser.name%></h1>
-<% }%>
+
+<br>
 <br>
 <br>
     <% posts.forEach(function(post){ %> 
@@ -30,10 +36,12 @@
     <p> <%if(post.user){ %>
     By: <%=post.user.name%> | 
     <%}%>
-    <a href="/posts/<%=post._id%>/comments">comment</a> |
+    <a href="/posts/<%=post._id%>/comments">comment</a> 
+    <% if(currentUser) {%>
     <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm">
     delete</button></form> 
     </p>
+    <% }%>
      </div> 
     <%})%>
 <% include ../partials/footer %>

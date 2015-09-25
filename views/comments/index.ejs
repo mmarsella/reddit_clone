@@ -18,13 +18,17 @@
   </div>
 </nav>
 
+
+<!-- <%= currentUser.name%> -->
+
 <a href="/posts/<%=post._id%>/comments/new" class="btn-lg btn-info text-center">COMMENT</a>
 <% if(currentUser) {%>
-  <h1>Welcome Back: <%= currentUser.name%></h1>
+  <h1> </h1>
 <% }%>
 <br>
 <br>
-    <% post.comments.forEach(function(post){ %> 
+
+    <% post.comments.forEach(function(comment){ %> 
   
     <a href="<%=comment.user%>"><%=post.title%></a>
     <p> <%if(post.user){ %>
