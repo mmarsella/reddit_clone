@@ -18,19 +18,19 @@
   </div>
 </nav>
 
-<a href="/posts/new" class="btn-lg btn-info text-center">CREATE POST</a>
+<a href="/posts/<%=post._id%>/comments/new" class="btn-lg btn-info text-center">COMMENT</a>
 <% if(currentUser) {%>
   <h1>Welcome Back: <%= currentUser.name%></h1>
 <% }%>
 <br>
 <br>
-    <% posts.forEach(function(post){ %> 
-    <img src="http://lorempixel.com/400/200/sports/" width="40px" height="40px">
-    <a href="<%=post.url%>"><%=post.title%></a>
+    <% post.comments.forEach(function(post){ %> 
+  
+    <a href="<%=comment.user%>"><%=post.title%></a>
     <p> <%if(post.user){ %>
     By: <%=post.user.name%> | 
     <%}%>
-    <a href="/posts/<%=post._id%>/comments">comment</a> |
+    comment |
     <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm">
     delete</button></form> 
     </p>

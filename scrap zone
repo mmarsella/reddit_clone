@@ -47,6 +47,13 @@ OLD user/index.ejs
 
 ********
 
+//INDEX  --> List of USERS
+app.get("/users", function (req,res){
+  db.User.find({}, function (err, users){
+  res.render("users/index", {users:users});
+  });
+});   // DON'T NEED THIS!!! NO NEED TO SHOW LIST OF USERS!!!
+
 
 
 

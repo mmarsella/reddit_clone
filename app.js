@@ -61,7 +61,6 @@ app.get("/", function (req,res){
   .exec(function (err,posts){
     res.render("posts/index",{posts:posts});
   });
-  
 });
 
 /*** LOGIN AND SIGN UP ****/
@@ -175,10 +174,12 @@ app.get("/posts/new", function (req,res){
 
 //SHOW
 app.get("/posts/:id", function (req,res){
+    //DON'T NEED THIS.... but keeping it here to be RESTful!!
 });
 
 //EDIT
 app.get("/posts/:id/edit", function (req,res){
+    //DON'T NEED THIS.... but keeping it here to be RESTful!!
 });
 
 //CREATE
@@ -223,15 +224,22 @@ app.delete("/posts/:id", function (req,res){  // Nobody will see the id b/c its 
 /** COMMENTS **/
 
 //INDEX
-app.get("/users/:user_id/posts/:post_id/comments", function (req,res){
+app.get("/posts/:post_id/comments", function (req,res){
+  db.Post.findById(req.params.post_id).populate("comments").exec(
+    function (err, post){
+    res.render("comments/index",{post:post});
+    });
 });
 
 //NEW
-app.get("/users/:user_id/posts/:post_id/comments/new", function (req,res){
+app.get("/posts/:post_id/comments/new", function (req,res){
+  res.render("comments/new");
+
 });
 
 //SHOW
 app.get("/comments/:id", function (req,res){
+  // DON't NEED THIS!!!! 
 });
 
 //EDIT
@@ -239,11 +247,13 @@ app.get("/comments/:id/edit", function (req,res){
 });
 
 //CREATE
-app.post("/users/:user_id/posts/:post_id/comments", function (req,res){
+app.post("/posts/:post_id/comments", function (req,res){
+
 });
 
 //UPDATE
 app.put("/comments/:id", function (req,res){
+
 });
 
 //DESTROY

@@ -7,6 +7,11 @@ var commentSchema = new mongoose.Schema({
    user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"User"
+  },
+  // post specific to the comment
+  post:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Post"
   }
 });
 
