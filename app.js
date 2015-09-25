@@ -164,7 +164,7 @@ app.delete("/users/:id", function (req,res){
 //DON't need any id's in route's bc they are stored in the session id!!
 
 //NEW
-app.get("/posts/new", function (req,res){
+app.get("/posts/new", routeMiddleware.ensureLoggedIn, function (req,res){
   res.render("posts/new");
 });
 

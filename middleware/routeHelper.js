@@ -11,7 +11,8 @@ var routeHelpers = {
 
   ensureCorrectUser: function(req, res, next) {
     db.Post.findById(req.params.id, function(err,post){
-      //added toString() 
+      //added toString() to ensure specific user can 
+      // only delete their own posts.
       if (post.user.toString() !== req.session.id) {
         res.redirect('/');
       }else {
