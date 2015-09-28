@@ -3,7 +3,9 @@ COOOKIES -- live in the browser
   -- session writes info to the cookie!
   -- whatever we write to the cookie is attached to req.session
 
-Sessions -- Live in the SERVER
+SESSIONS -- Live in the SERVER
+   -- Any kind of in-memory storage
+   -- Can be used to store user info
    -- Way of remembering info from page to page
    -- stays on the server
    -- sends info to browser as well
@@ -29,13 +31,14 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //ALWAYS create the session BEFORE trying to using ANY MIDDLEWARE that involves req.session
 app.use(session({
-  maxAge: 3600000,   //milliseconds  (360 seconds/6min)
-  secret: 'illnevertell',
-  name: "chocolate chip"
+  maxAge: 3600000,   //milliseconds  (360 seconds/6min) --> life of the cookie
+  secret: 'illnevertell', // communication
+  name: "chocolate chip" // what we see in the resources tab/cookies --> browser
 }));
 
 
 app.use(loginMiddleware);  // calling the loginhelper on EVERY REQUEST!
+
 /*
 Models - User, Post, and Comment
 Anyone can visit the root page and see a list of all the posts
@@ -222,19 +225,22 @@ app.delete("/posts/:id", routeMiddleware.ensureCorrectUser, function (req,res){ 
 
 //INDEX
 app.get("/posts/:post_id/comments", function (req,res){
-  db.Post.findById(req.params.post_id).populate("comments").exec(
-    function (err, post){
-      db.Comment.find(req.params.post_id).populate("user").exec(
-        function (err, comment){
-        res.render("comments/index",{post:post, comment:comment});
-
-        });
+  db.Comment.find({post:req.params.post_id}).populate("user").exec(function (err, comments){
+    console.log("THESE ARE THE COMMENTS!", comments);
+    db.Post.findById(req.params.post_id).populate("comments").exec(function (err, post){
+      // console.log("THIS IS THE POST!", post)
+      res.render("comments/index",{comments:comments, post:post});
     });
+  });
 });
 
 //NEW
 app.get("/posts/:post_id/comments/new", function (req,res){
+  console.log(req.params.post_id);
   db.Post.findById(req.params.post_id, function (err, post){
+    console.log("CURRENT USER: ",res.locals.currentUser);
+    // console.log("THIS IS THE ERROR", err);
+    console.log("THIS IS THE POST", post);
     res.render("comments/new", {post:post});
   });
 });
@@ -250,7 +256,9 @@ app.get("/comments/:id/edit", function (req,res){
 
 //CREATE
 app.post("/posts/:post_id/comments", function (req,res){
-  db.Comment.create(req.body.comment, function (err, comment){
+  var newComment = new db.Comment(req.body.comment);
+  newComment.user = req.session.id;
+  newComment.save(function (err, comment){
     console.log("The comment: " + comment);
     if(err){
       console.log(err);
@@ -258,10 +266,10 @@ app.post("/posts/:post_id/comments", function (req,res){
     }else{
       db.Post.findById(req.params.post_id, function (err, post){
         post.comments.push(comment);
-        comment.post = comment._id;
+        comment.post = post._id;
         comment.save();
         post.save();
-        res.redirect("/posts/:post_id/comments");
+        res.redirect("/posts/" + req.params.post_id + "/comments");
       });
     }
   });
@@ -273,18 +281,27 @@ app.put("/comments/:id", function (req,res){
 
 });
 
-//DESTROY
+//DESTROY  
 app.delete("/comments/:id", function (req,res){
+  db.Comment.findByIdAndRemove(req.params.id, function (err, comment){
+    console.log(req.params.id);
+    console.log("The comment is: ", comment);
+    if(err){
+      console.log(err);
+    }else{
+      res.redirect("/posts/" + comment.post + "/comments");
+    }
+  });
 });
 
 
+/** TO DO *****
 
-/*****  TO DO  *****
+1) COMMENT PAGE 
+2) When submit new comment, render comment index
+3) Check routeHelper midddleWare
 
-3) POST CRUD
 */
-
-
 
 app.get('*', function(req,res){
   res.render('errors/404');

@@ -99,6 +99,17 @@ userSchema.methods.checkPassword = function(password, callback) {
   });
 };
 
+//EXAMPLES OF STATICS
+  //db.User.findById
+  //db.user.create
+  //db.User.find
+  //db.user.update
+  //db.User.findByIdAndAllTheThings
+
+//EXAMPLES OF METHODS
+  // var user = new db.User
+  //user.save
+
 /** MODEL AND EXPORTS **/
 
 var User = mongoose.model("User", userSchema);

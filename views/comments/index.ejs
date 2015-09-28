@@ -4,6 +4,12 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">REDDIT_CLONE</a>
     </div>
+     <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+      <% if(currentUser) {%>
+  Welcome, <%= currentUser.name%>
+<% }%></a>
+    </div>
     <div>
       <ul class="nav navbar-nav navbar-right">
     <% if(!currentUser) {%>
@@ -18,26 +24,28 @@
   </div>
 </nav>
 
+<a href="/posts/<%=post._id%>/comments/new" class="btn-lg btn-success text-center">COMMENT</a>
 
-<!-- <%= currentUser.name%> -->
-
-<a href="/posts/<%=post._id%>/comments/new" class="btn-lg btn-info text-center">COMMENT</a>
+<a href="/" class="btn-lg btn-info text-center">HOME</a>
 <% if(currentUser) {%>
   <h1> </h1>
 <% }%>
 <br>
 <br>
+   
+
+  <a href="<%=post.url%>"><h3><%=post.title%></h3></a>
+   
+
 
     <% post.comments.forEach(function(comment){ %> 
+    <p><%=comment.body%></p>
   
-    <a href="<%=comment.user%>"><%=post.title%></a>
     <p> <%if(post.user){ %>
-    By: <%=post.user.name%> | 
-    <%}%>
-    comment |
-    <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm">
+    <form action="/comments/<%=comment._id%>?_method=delete" method="POST"> <button class="btn-sm btn-danger">
     delete</button></form> 
     </p>
+    <%}%>
      </div> 
     <%})%>
 <% include ../partials/footer %>

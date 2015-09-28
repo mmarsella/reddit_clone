@@ -25,7 +25,10 @@
   </div>
 </nav>
 
+ <% if(currentUser) {%>
 <a href="/posts/new" class="btn-lg btn-info text-center">CREATE POST</a>
+<% }%>
+
 
 <br>
 <br>
@@ -38,7 +41,7 @@
     <%}%>
     <a href="/posts/<%=post._id%>/comments">comment</a> 
     <% if(currentUser) {%>
-    <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm">
+    <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm btn-danger">
     delete</button></form> 
     </p>
     <% }%>
