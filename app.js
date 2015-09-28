@@ -177,7 +177,7 @@ app.get("/posts/:id", function (req,res){
 });
 
 //EDIT
-app.get("/posts/:id/edit", function (req,res){
+app.get("/posts/:id/edit", routeMiddleware.ensureCorrectUser, function (req,res){
   db.Post.findById(req.params.id, function (err, post){
     res.render("posts/edit",{post:post});
   });
@@ -312,7 +312,6 @@ app.delete("/comments/:id", routeMiddleware.ensureCorrectUserForComment,  functi
     }
   });
 });
-
 
 app.get('*', function(req,res){
   res.render('errors/404');
