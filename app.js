@@ -282,7 +282,7 @@ app.put("/comments/:id", function (req,res){
 });
 
 //DESTROY  
-app.delete("/comments/:id", function (req,res){
+app.delete("/comments/:id", routeMiddleware.ensureCorrectUserForComment,  function (req,res){
   db.Comment.findByIdAndRemove(req.params.id, function (err, comment){
     console.log(req.params.id);
     console.log("The comment is: ", comment);

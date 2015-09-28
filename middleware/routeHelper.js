@@ -22,6 +22,20 @@ var routeHelpers = {
     });
   },
 
+  ensureCorrectUserForComment: function (req,res,next){
+    db.Comment.findById(req.params.id).populate("user").exec(
+      function (err,comment){
+        console.log("Comment in rtHelper: ",comment);
+        if(comment.user != undefined && comment.user.id != req.session.id){
+          res.redirect("/posts/" + comment.post + "/comments");
+        }else{
+          return next();
+        }
+      });
+  },
+  
+  
+
   preventLoginSignup: function(req, res, next) {
     if (req.session.id !== null && req.session.id !== undefined) {
       res.redirect('/');
