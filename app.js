@@ -251,7 +251,7 @@ app.get("/comments/:id", function (req,res){
 });
 
 //EDIT
-app.get("/comments/:id/edit", function (req,res){
+app.get("/comments/:id/edit", routeMiddleware.ensureCorrectUserForComment, function (req,res){
   db.Comment.findById(req.params.id, function (err, comment){
   console.log("The comment to update:",comment);
     res.render("comments/edit", {comment:comment});
@@ -277,7 +277,6 @@ app.post("/posts/:post_id/comments", routeMiddleware.ensureLoggedIn, function (r
       });
     }
   });
-
 });
 
 //UPDATE
