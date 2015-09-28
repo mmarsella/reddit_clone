@@ -41,6 +41,7 @@
     <% if(currentUser) {%>
     <form action="/posts/<%=post._id%>?_method=delete" method="POST"> <button class="btn-sm btn-danger">
     delete</button></form> 
+    <a href="/posts/<%=post._id%>/edit" class="btn-info btn-sm">edit</a>
     </p>
     <% }%>
      </div> 

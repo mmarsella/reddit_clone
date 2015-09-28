@@ -178,7 +178,9 @@ app.get("/posts/:id", function (req,res){
 
 //EDIT
 app.get("/posts/:id/edit", function (req,res){
-    //DON'T NEED THIS.... but keeping it here to be RESTful!!
+  db.Post.findById(req.params.id, function (err, post){
+    res.render("posts/edit",{post:post});
+  });
 });
 
 //CREATE
@@ -204,7 +206,13 @@ app.post("/posts", function (req,res){
 
 //UPDATE
 app.put("/posts/:id", function (req,res){
-  //DON'T NEED THIS.... but keeping it here to be RESTful!!
+  db.Post.findByIdAndUpdate(req.params.id, req.body.post, function (err, post){
+    if(err){
+      console.log(err);
+    }else{
+      res.redirect("/");
+    }
+  });
 });
 
 //DESTROY
