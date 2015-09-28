@@ -6,8 +6,6 @@ var db = require("../models");
  MIDDLEWARE!!!! b/c it is created everytime it is handled
  thru the m-ware.*/
 
-
-
 //loginhelpers is afunction that is run on EVERY SINGLE REQUEST!!!!
 
 //next is a callback, so we can move on after middleware ops
@@ -29,7 +27,6 @@ else {
     res.locals.currentUser = user; 
   });
 }
-
 
   //The act of storing info into the session
   req.login = function (user){

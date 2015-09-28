@@ -51,7 +51,6 @@ Only the owner/creator of a comment can edit that comment
 Only the owner/creator of a comment can delete that comment
 */
 
-
 //ROOT  --> anyone can visit the root page and see a list of all the posts
 app.get("/", function (req,res){
 
@@ -314,7 +313,7 @@ app.delete("/comments/:id", routeMiddleware.ensureCorrectUserForComment,  functi
 });
 
 app.get('*', function(req,res){
-  res.render('errors/404');
+  res.render('404');
 });
 
 app.listen(3000, function(){
