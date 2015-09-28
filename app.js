@@ -252,6 +252,10 @@ app.get("/comments/:id", function (req,res){
 
 //EDIT
 app.get("/comments/:id/edit", function (req,res){
+  db.Comment.findById(req.params.id, function (err, comment){
+  console.log("The comment to update:",comment);
+    res.render("comments/edit", {comment:comment});
+  });
 });
 
 //CREATE
@@ -278,12 +282,20 @@ app.post("/posts/:post_id/comments", routeMiddleware.ensureLoggedIn, function (r
 
 //UPDATE
 app.put("/comments/:id", function (req,res){
+  db.Comment.findByIdAndUpdate(req.params.id, req.body.comment, function (err, comment){
+    console.log("The comment being update:",comment);
+    if(err){
+      console.log(err);
+    }else{
+      res.redirect("/posts/" + comment.post + "/comments");
+    }
+  });
 
 });
 
 //DESTROY  
 app.delete("/comments/:id", routeMiddleware.ensureCorrectUserForComment,  function (req,res){
-  db.Comment.findByIdAndRemove(req.params.id, function (err, comment){
+  db.Comment.findByIdAndRemove(req.params.id, req.body, function (err, comment){
     console.log(req.params.id);
     console.log("The comment is: ", comment);
     if(err){
@@ -294,14 +306,6 @@ app.delete("/comments/:id", routeMiddleware.ensureCorrectUserForComment,  functi
   });
 });
 
-
-/** TO DO *****
-
-1) COMMENT PAGE 
-2) When submit new comment, render comment index
-3) Check routeHelper midddleWare
-
-*/
 
 app.get('*', function(req,res){
   res.render('errors/404');

@@ -41,11 +41,12 @@
     <% post.comments.forEach(function(comment){ %> 
     <p><%=comment.body%></p>
   
-    <p> <%if(post.user){ %>
+    <span> <%if(post.user){ %>
     <form action="/comments/<%=comment._id%>?_method=delete" method="POST"> <button class="btn-sm btn-danger">
     delete</button></form> 
-    </p>
+    <a href="/comments/<%=comment._id%>/edit" class="btn-info btn-sm">edit</a>
     <%}%>
+    </span>
      </div> 
     <%})%>
 <% include ../partials/footer %>
