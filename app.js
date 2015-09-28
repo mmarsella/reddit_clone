@@ -255,7 +255,7 @@ app.get("/comments/:id/edit", function (req,res){
 });
 
 //CREATE
-app.post("/posts/:post_id/comments", function (req,res){
+app.post("/posts/:post_id/comments", routeMiddleware.ensureLoggedIn, function (req,res){
   var newComment = new db.Comment(req.body.comment);
   newComment.user = req.session.id;
   newComment.save(function (err, comment){
